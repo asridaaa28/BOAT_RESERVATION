@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Admin Dashboard - View Bookings</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Boat Name</th>
+                    <th>Trip Date</th>
+                    <th>Trip Time</th>
+                    <th>Customer Name</th>
+                    <th>Seat Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reservation : ${reservations}">
+                    <td th:text="${reservation.trip.boat.name}"></td>
+                    <td th:text="${reservation.trip.date}"></td>
+                    <td th:text="${reservation.trip.time}"></td>
+                    <td th:text="${reservation.customer.name}"></td>
+                    <td th:text="${reservation.seatNumber}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</body>
+</html>

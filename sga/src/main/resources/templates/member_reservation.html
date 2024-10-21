@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Reservations</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="reservations-container">
+        <h2>My Reservations</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Trip Date</th>
+                    <th>Trip Time</th>
+                    <th>Boat Name</th>
+                    <th>Seat Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reservation : ${reservations}">
+                    <td th:text="${reservation.trip.date}"></td>
+                    <td th:text="${reservation.trip.time}"></td>
+                    <td th:text="${reservation.trip.boat.name}"></td>
+                    <td th:text="${reservation.seatNumber}"></td>
+                    <td>
+                        <form th:action="@{/member/reservation/{reservationId}/modify(reservationId=${reservation.id})}" method="post">
+                            <label for="numSeats">Modify Seats:</label>
+                            <input type="number" name="numSeats" min="1" max="${reservation.trip.availableSeats}" required>
+                            <button type="submit">Modify</button>
+                        </form>
+                        <a th:href="@{/member/reservation/{reservationId}/cancel(reservationId=${reservation.id})}">Cancel</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/member/dashboard}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

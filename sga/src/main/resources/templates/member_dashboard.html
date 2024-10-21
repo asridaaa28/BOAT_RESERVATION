@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Member Dashboard - Available Boats and Trips</h2>
+
+        <h3>Select a boat to view available trips</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Boat Name</th>
+                    <th>Capacity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="boat : ${boats}">
+                    <td th:text="${boat.name}"></td>
+                    <td th:text="${boat.capacity}"></td>
+                    <td><a th:href="@{/boats/{id}/trips(id=${boat.id})}">View Trips</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</body>
+</html>

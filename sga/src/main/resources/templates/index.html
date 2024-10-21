@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boat Reservation System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="nav-container">
+            <h1>Boat Reservation System</h1>
+        </div>
+        <div class="menu-container">
+            <nav>
+                <ul>
+                    <!-- Menu visible for both logged-in users (Admin and Member) -->
+                    <li><a th:href="@{/home}">Home</a></li>
+                    
+                    <!-- Admin specific menu items -->
+                    <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a th:href="@{/admin/dashboard}">Admin Dashboard</a>
+                    </li>
+                    <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a th:href="@{/admin/boats}">Manage Boats</a>
+                    </li>
+                    <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a th:href="@{/admin/trips}">Manage Trips</a>
+                    </li>
+
+                    <!-- Member specific menu items -->
+                    <li th:if="${#authorization.expression('hasRole(''MEMBER'')')}">
+                        <a th:href="@{/member/dashboard}">My Dashboard</a>
+                    </li>
+                    <li th:if="${#authorization.expression('hasRole(''MEMBER'')')}">
+                        <a th:href="@{/member/reservations}">My Reservations</a>
+                    </li>
+
+                    <!-- Visible for both Admin and Member -->
+                    <li th:if="${#authorization.expression('isAuthenticated()')}">
+                        <a th:href="@{/logout}">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="content">
+            <!-- Conditional login form if the user is not authenticated -->
+            <div th:if="${not #authorization.expression('isAuthenticated()')}">
+                <h2>Login to the Boat Reservation System</h2>
+                <form th:action="@{/login}" method="post">
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" name="username" placeholder="Enter your email" required>
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div>
+                    <a th:href="@{/register}">Don't have an account? Register here</a>
+                </div>
+            </div>
+
+            <!-- Content for authenticated users -->
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <h2>Welcome to the Boat Reservation System</h2>
+                <p>Use the navigation menu to access your dashboard.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Boat Reservation System. All rights reserved.</p>
+    </footer>
+    
+</body>
+</html>

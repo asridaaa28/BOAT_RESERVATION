@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book a Trip</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="trip-container">
+        <h2>Available Trips for Boat</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Trip Date</th>
+                    <th>Trip Time</th>
+                    <th>Available Seats</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="trip : ${trips}">
+                    <td th:text="${trip.date}"></td>
+                    <td th:text="${trip.time}"></td>
+                    <td th:text="${trip.availableSeats}"></td>
+                    <td>
+                        <form th:action="@{/member/book/{tripId}(tripId=${trip.id})}" method="post">
+                            <label for="numSeats">Seats:</label>
+                            <input type="number" name="numSeats" min="1" max="${trip.availableSeats}" required>
+                            <button type="submit">Book</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/member/dashboard}">Back to Dashboard</a>
+    </div>
+</body>
+</html>
