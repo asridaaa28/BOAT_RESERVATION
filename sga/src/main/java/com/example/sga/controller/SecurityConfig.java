@@ -1,46 +1,39 @@
 package com.example.sga.controller;
 
-import com.example.sga.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserService userService;  // Now UserService implements UserDetailsService
-
     @Bean
-    public UserDetailsService userDetailsService() {
-        return userService;  // This works because UserService now implements UserDetailsService
+    public PasswordEncoder passwordEncoder() {
+        // Use NoOpPasswordEncoder for plain text passwords
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/member/**", "/register").hasRole("MEMBER")
-                .anyRequest().authenticated()
-            )
+            .csrf().disable()
+            .authorizeHttpRequests()
+                .requestMatchers("/register", "/login", "/css/**").permitAll() // Allow public access to these pages
+                .anyRequest().authenticated() // Require authentication for all other requests
+            .and()
             .formLogin()
-            .loginPage("/login")
-            .permitAll()
+                .loginPage("/login") // Custom login page
+                .defaultSuccessUrl("/", true) // Redirect to home after successful login
+                .permitAll() // Allow everyone to see the login page
             .and()
             .logout()
-            .permitAll();
+                .permitAll(); // Allow everyone to logout
 
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

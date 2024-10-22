@@ -19,6 +19,8 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
+      
+
     // Getters and Setters (if you're not using Lombok's @Data)
 
     public Long getId() {

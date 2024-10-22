@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SgaApplication<sga>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.sga.SgaApplication",
+            "projectName": "sga",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

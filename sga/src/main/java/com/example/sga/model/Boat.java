@@ -24,6 +24,6 @@ public class Boat {
     private String name;
     private int capacity;
 
-    @OneToMany(mappedBy = "boats", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boat", cascade = CascadeType.ALL)
     private List<Trip> trips;
 }
